@@ -1,4 +1,4 @@
-# coolest-art-01: the coolest art entry.
+# coolest-art-01: the wave-hand entry.
 # The program copies the vendored image to the output path, byte for byte,
 # then reads both files back and refuses to finish unless the copy matches
 # the source exactly. Standard library only; no network. Deterministic:
