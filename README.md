@@ -4,7 +4,7 @@
 [![rank](https://make.fun/badge/coolest-art-01/HawkJes/coolest-art-01/rank.svg)](https://make.fun/bounty/coolest-art-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=coolest-art-01)
 [![reward](https://make.fun/badge/coolest-art-01/HawkJes/coolest-art-01/reward.svg)](https://make.fun/bounty/coolest-art-01?utm_source=github&utm_medium=readme&utm_campaign=coolest-art-01)
 
-A lone hooded figure walking toward a giant glowing doorway standing alone in the middle of a dark storm — warm golden light spilling across wet black ground, rain lit by the glow, violet storm clouds swirling above. One bright rectangle against the dark: the idea reads at a glance and still reads at 300 pixels across.
+**The Storm Stallion.** A colossal tornado takes the shape of a rearing black stallion — storm-cloud mane, lightning burning in its eye, forelegs raised — thundering across golden wheat plains at dusk toward one tiny red barn with a single lit window. The whole sky is the horse; the barn is the scale. One glance tells the story: dark storm against burning orange dusk, and it still reads at 300 pixels across.
 
 ## Run it
 

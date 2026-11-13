@@ -1,35 +1,48 @@
-# coolest-art-01: the moon-eye entry.
-# The program copies the vendored image to the output path, byte for byte,
-# then reads the copy back and refuses to finish unless it matches the
-# source exactly, including a sha256 check of the vendored file. Standard
-# library only; no network. Deterministic: two runs write the same bytes,
-# because the file copied never changes.
+# coolest-art-01: "The Storm Stallion" (v4 candidate).
+#
+# The entry is a single vendored PNG that this program places at the
+# harness output path. Nothing is generated at run time, nothing is
+# fetched, and the bytes never change, so any two runs are identical.
+# Before copying, the source file is hashed and compared against the
+# fingerprint recorded below; a single changed byte aborts the run.
+# After copying, the destination is read back and compared byte for
+# byte with the source, so a truncated or corrupted write is caught
+# instead of silently submitted.
 import hashlib
 import os
 import shutil
 import sys
 
-EXPECTED_SHA256 = "ad002bac87b9748c8eb8bca7488c2d5a99cb4f9ab284a44d92b0e7e74a095c4e"
+EXPECTED_SHA256 = "c682645476b9d02ebc0a6358e2d722822950877862a5052f4b4895c581defc2e"
+IMAGE_NAME = "entry.png"
+
+
+def _digest(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _fail(message):
+    print("storm-stallion: %s" % message, file=sys.stderr)
+    sys.exit(1)
 
 
 def main():
-    here = os.path.dirname(os.path.abspath(__file__))
-    src = os.path.join(here, "entry.png")
+    base = os.path.dirname(os.path.abspath(__file__))
+    source = os.path.join(base, IMAGE_NAME)
+    if _digest(source) != EXPECTED_SHA256:
+        _fail("vendored image failed its sha256 check")
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
     os.makedirs(out_dir, exist_ok=True)
-    dst = os.path.join(out_dir, "entry.png")
-    with open(src, "rb") as f:
-        want = f.read()
-    if hashlib.sha256(want).hexdigest() != EXPECTED_SHA256:
-        print("entry.png sha256 mismatch", file=sys.stderr)
-        sys.exit(1)
-    shutil.copyfile(src, dst)
-    with open(dst, "rb") as f:
-        got = f.read()
-    if got != want:
-        print("entry.png copy mismatch", file=sys.stderr)
-        sys.exit(1)
-    print("wrote %s (%d bytes)" % (dst, len(got)))
+    target = os.path.join(out_dir, IMAGE_NAME)
+    shutil.copyfile(source, target)
+    if _digest(target) != EXPECTED_SHA256:
+        _fail("written image does not match the vendored image")
+    size = os.path.getsize(target)
+    print("storm-stallion: wrote %s (%d bytes, sha256 ok)" % (target, size))
 
 
 if __name__ == "__main__":
