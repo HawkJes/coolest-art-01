@@ -33,6 +33,8 @@ def _fail(message):
 def main():
     base = os.path.dirname(os.path.abspath(__file__))
     source = os.path.join(base, IMAGE_NAME)
+    if not os.path.exists(source):
+        _fail("vendored image %s is missing next to main.py" % IMAGE_NAME)
     if _digest(source) != EXPECTED_SHA256:
         _fail("vendored image failed its sha256 check")
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
